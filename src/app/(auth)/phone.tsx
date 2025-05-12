@@ -51,7 +51,7 @@ export default function Page() {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white p-5"
+      className="flex-1 bg-[#FFCCD5] p-5"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={100}
     >
@@ -59,8 +59,14 @@ export default function Page() {
       <StatusBar barStyle={"dark-content"} />
       <View className="flex-1 justify-center pt-28">
         <View className="flex-1">
-          <Text className="text-4xl font-playfair-semibold">
+          <Text className="text-[#C9184A] text-4xl font-playfair-semibold mb-4">
             What's your phone number?
+          </Text>
+          <Text className="text-[#FF4D6D] text-xl font-playfair-semibold">
+            Note: enter your phone number with your code country id.
+          </Text>
+          <Text className="text-[#FF4D6D] text-xl font-playfair-semibold">
+            (ex.+10000000000)
           </Text>
           <View className="h-28" />
           <TextInput
@@ -90,6 +96,7 @@ export default function Page() {
             disabled={!isValid || isPending}
             onPress={handleSubmit}
             loading={isPending}
+            className="bg-[#590D22]"
           />
         </View>
       </View>
