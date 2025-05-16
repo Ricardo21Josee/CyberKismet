@@ -6,13 +6,13 @@ const Page = () => {
   const { mutate } = useSignOut();
 
   return (
-    <View className="flex-1 bg-white p-5">
+    <View className="flex-1 bg-[#FFF0F3] p-5">
       <StackHeaderV2 title="Settings" />
       <TouchableOpacity
-        className="p-3 border-y border-neutral-300"
+        className="p-3 border-y border-[#FFB3C1]"
         onPress={async () => mutate()}
       >
-        <Text className="text-base text-center font-poppins-regular">
+        <Text className="text-base text-center font-poppins-regular text-[#590D22]">
           Log Out
         </Text>
       </TouchableOpacity>

@@ -5,7 +5,6 @@ import { useEdit } from "@/store/edit";
 import { router, Stack } from "expo-router";
 import { isEqual } from "lodash";
 import { Alert } from "react-native";
-import colors from "tailwindcss/colors";
 
 export default function Layout() {
   const { data: profile } = useMyProfile();
@@ -57,6 +56,7 @@ export default function Layout() {
       },
     });
   };
+
   return (
     <>
       <StackHeaderV3
@@ -67,15 +67,15 @@ export default function Layout() {
       <MaterialTopTabs
         screenOptions={{
           tabBarIndicatorStyle: {
-            backgroundColor: colors.fuchsia[900],
+            backgroundColor: "#C9184A", // Cambiado a rosa oscuro de tu paleta
           },
           tabBarLabelStyle: {
             textTransform: "capitalize",
             fontWeight: "bold",
             fontSize: 13,
           },
-          tabBarActiveTintColor: colors.fuchsia[900],
-          tabBarInactiveTintColor: colors.neutral[300],
+          tabBarActiveTintColor: "#C9184A", // Rosa oscuro
+          tabBarInactiveTintColor: "#FFB3C1", // Rosa claro
           swipeEnabled: !gridActive,
         }}
       >

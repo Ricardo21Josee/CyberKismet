@@ -11,27 +11,48 @@ export default function Page() {
 
   if (!edits) {
     return (
-      <View className="flex-1 bg-white items-center justify-center">
-        <Text>Something went wrong.</Text>
+      <View
+        className="flex-1 items-center justify-center"
+        style={{ backgroundColor: "#FFF0F3" }}
+      >
+        <Text style={{ color: "#590D22" }}>Something went wrong.</Text>
       </View>
     );
   }
 
   return (
     <ScrollView
-      className="flex-1 bg-white pt-10"
-      contentContainerClassName="pb-20 gap-5"
+      style={{ flex: 1, backgroundColor: "#FFF0F3", paddingTop: 40 }}
+      contentContainerStyle={{ paddingBottom: 80, gap: 20 }}
       showsVerticalScrollIndicator={false}
       scrollEnabled={!gridActive}
     >
-      <View className="px-5">
-        <Text className="text-base font-poppins-semibold mb-2">My Photos</Text>
+      <View style={{ paddingHorizontal: 20 }}>
+        <Text
+          style={{
+            fontSize: 16,
+            fontFamily: "Poppins-SemiBold",
+            marginBottom: 8,
+            color: "#800F2F",
+          }}
+        >
+          My Photos
+        </Text>
         <PhotoGrid profile={edits} />
-        <View className="h-10" />
-        <Text className="text-base font-poppins-semibold mb-2">My Answers</Text>
+        <View style={{ height: 40 }} />
+        <Text
+          style={{
+            fontSize: 16,
+            fontFamily: "Poppins-SemiBold",
+            marginBottom: 8,
+            color: "#800F2F",
+          }}
+        >
+          My Answers
+        </Text>
         <AnswerList profile={edits} />
       </View>
-      <View className="pl-5 gap-10">
+      <View style={{ paddingLeft: 20, gap: 40 }}>
         <List title="My Vitals" data={vitals} profile={edits} />
         <List title="Identity" data={identity} profile={edits} />
       </View>

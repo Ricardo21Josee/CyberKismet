@@ -17,7 +17,7 @@ export default function Page() {
     });
   };
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-[#FFF0F3]">
       <StackHeaderV2 title="Prompts" />
       <FlatList
         data={prompts}
@@ -28,13 +28,13 @@ export default function Page() {
               className="p-3 py-5"
               onPress={() => handlePress(item)}
             >
-              <Text className="text-sm font-poppins-regular">
+              <Text className="text-sm font-poppins-regular text-[#590D22]">
                 {item.question}
               </Text>
             </TouchableOpacity>
           );
         }}
-        ItemSeparatorComponent={() => <View className="h-px bg-neutral-200" />}
+        ItemSeparatorComponent={() => <View className="h-px bg-[#FFB3C1]" />}
         contentContainerClassName="pl-5 pb-20"
       />
     </View>

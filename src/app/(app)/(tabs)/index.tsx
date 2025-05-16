@@ -124,19 +124,19 @@ export default function Page() {
   }
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-[#FFF0F3]">
       <ScrollView className="flex-1 px-5">
         <Link href={"/preferences"} suppressHighlighting>
-          <Ionicons name="options-outline" className="text-3xl" />
+          <Ionicons name="options-outline" size={32} color="#800F2F" />
         </Link>
         {profile && <ProfileView profile={profile} onLike={handleLike} />}
       </ScrollView>
       <Fab
         onPress={handleSkip}
         iconName="close"
-        className="bg-white shadow-sm active:h-[4.75rem] h-20 absolute bottom-5 left-5"
-        iconClassName="text-black text-4xl"
-        loaderClassName="text-black"
+        className="bg-[#FF758F] shadow-sm active:h-[4.75rem] h-20 absolute bottom-5 left-5"
+        iconClassName="text-[#FFF0F3] text-4xl"
+        loaderClassName="text-[#FFF0F3]"
       />
     </View>
   );

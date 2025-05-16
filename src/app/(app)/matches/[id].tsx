@@ -19,17 +19,26 @@ const CustomHeader = () => {
   return (
     <Stack.Screen
       options={{
+        headerStyle: {
+          backgroundColor: "#FFF0F3", // Light pink background
+        },
+        headerTitleStyle: {
+          color: "#800F2F", // Dark red for title
+        },
         headerLeft: () => (
           <View className="flex-row items-center gap-2">
             <Pressable onPressOut={() => router.back()}>
               <Ionicons
                 name="chevron-back"
                 className="text-2xl"
+                color="#590D22" // Dark red for back icon
                 suppressHighlighting
               />
             </Pressable>
 
-            <Text className="text-lg font-poppins-medium">{headerTitle}</Text>
+            <Text className="text-lg font-poppins-medium text-800F2F">
+              {headerTitle}
+            </Text>
           </View>
         ),
         title: "",
@@ -59,6 +68,7 @@ const CustomHeader = () => {
                         },
                       });
                     },
+                    style: "destructive",
                   },
                 ]
               );
@@ -67,6 +77,7 @@ const CustomHeader = () => {
             <Ionicons
               name="cut-outline"
               className="text-2xl"
+              color="#590D22" // Dark red for unmatch icon
               suppressHighlighting
             />
           </Pressable>
@@ -89,16 +100,18 @@ export default function Page() {
   if (!channel) return null;
 
   return (
-    <GroupChannelFragment
-      channel={channel}
-      onChannelDeleted={() => {
-        router.navigate("/matches");
-      }}
-      onPressHeaderLeft={() => {
-        router.back();
-      }}
-      onPressHeaderRight={() => {}}
-      keyboardAvoidOffset={height}
-    />
+    <View style={{ flex: 1, backgroundColor: "#FFF0F3" }}>
+      <GroupChannelFragment
+        channel={channel}
+        onChannelDeleted={() => {
+          router.navigate("/matches");
+        }}
+        onPressHeaderLeft={() => {
+          router.back();
+        }}
+        onPressHeaderRight={() => {}}
+        keyboardAvoidOffset={height}
+      />
+    </View>
   );
 }

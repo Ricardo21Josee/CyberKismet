@@ -7,7 +7,6 @@ import * as Crypto from "expo-crypto";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
-import colors from "tailwindcss/colors";
 
 export default function Page() {
   const { data: prompts } = usePrompts();
@@ -73,8 +72,9 @@ export default function Page() {
 
     router.dismissTo("/(app)/profile/(tabs)");
   };
+
   return (
-    <View className="flex-1 bg-white p-5">
+    <View className="flex-1 bg-[#FFF0F3] p-5">
       <StackHeaderV3
         title="Write answer"
         onPressCancel={handlePressCancel}
@@ -91,16 +91,17 @@ export default function Page() {
           asChild
           suppressHighlighting
         >
-          <Pressable className="border border-neutral-200 rounded-md px-5 py-6">
-            <Text className="text-base">{prompt?.question}</Text>
+          <Pressable className="border border-[#FFB3C1] rounded-md px-5 py-6 bg-[#FFF0F3]">
+            <Text className="text-base text-[#590D22]">{prompt?.question}</Text>
           </Pressable>
         </Link>
         <TextInput
-          className="border border-neutral-200 rounded-md p-5 h-36"
+          className="border border-[#FFB3C1] rounded-md p-5 h-36 bg-[#FFF0F3] text-[#590D22]"
           multiline={true}
           numberOfLines={6}
           maxLength={255}
-          selectionColor={colors.black}
+          selectionColor="#A4133C"
+          placeholderTextColor="#FF8FA3"
           value={text}
           onChangeText={setText}
         />

@@ -32,18 +32,33 @@ const Page = () => {
   };
 
   return (
-    <View className="bg-white flex-1 px-5 py-20 ">
-      <StackHeaderV4 title="Age range" onPressBack={handlePress} />
+    <View className="bg-FFF0F3 flex-1 px-5 py-20">
+      {/* Solución 1: Si StackHeaderV4 acepta un elemento React como título */}
+      <StackHeaderV4
+        title={<Text style={{ color: "#800F2F" }}>Age range</Text>}
+        onPressBack={handlePress}
+      />
+
+      {/* O Solución 2: Si necesitas mantener el título como string */}
+      <StackHeaderV4
+        title="Age range"
+        onPressBack={handlePress}
+        // No agregamos className aquí ya que causa error
+      />
+
       <Slider
         minimumValue={18}
         maximumValue={100}
         step={1}
         value={ageRange}
         onValueChange={(value) => setAgeRange(value)}
+        minimumTrackTintColor="#FF4D6D"
+        maximumTrackTintColor="#FFB3C1"
+        thumbTintColor="#C9184A"
         renderAboveThumbComponent={(_index, value) => {
           return (
             <View className="items-center justify-center w-16 -left-8">
-              <Text className="text-center ">{value}</Text>
+              <Text className="text-center text-590D22">{value}</Text>
             </View>
           );
         }}
@@ -51,4 +66,5 @@ const Page = () => {
     </View>
   );
 };
+
 export default Page;

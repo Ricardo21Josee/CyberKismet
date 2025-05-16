@@ -37,16 +37,21 @@ export default function Page() {
   };
 
   return (
-    <View className="flex-1 bg-white p-5">
+    <View
+      className="flex-1 p-5"
+      style={{ backgroundColor: "#FFF0F3" }} // Fondo rosa claro
+    >
       <StackHeaderV4 title="I'm interested in" onPressBack={handlePress} />
-      <CheckboxList
-        options={data.map((item) => ({
-          id: item.id,
-          name: item.plural_name || item.name,
-        }))}
-        onChange={setSelected}
-        initialSelection={selected}
-      />
+      <View style={{ marginTop: 16 }}>
+        <CheckboxList
+          options={data.map((item) => ({
+            id: item.id,
+            name: item.plural_name || item.name,
+          }))}
+          onChange={setSelected}
+          initialSelection={selected}
+        />
+      </View>
     </View>
   );
 }

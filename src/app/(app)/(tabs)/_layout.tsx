@@ -6,7 +6,6 @@ import { Image } from "expo-image";
 import { Tabs } from "expo-router";
 import { useEffect } from "react";
 import { View } from "react-native";
-import colors from "tailwindcss/colors";
 
 export default function Layout() {
   const { data: profile } = useMyProfile();
@@ -22,10 +21,10 @@ export default function Layout() {
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: colors.neutral[950],
+          backgroundColor: "#590D22", // Color más oscuro de la paleta para la barra
         },
-        tabBarActiveTintColor: colors.white,
-        tabBarInactiveTintColor: colors.neutral[500],
+        tabBarActiveTintColor: "#FFF0F3", // Color claro para íconos activos
+        tabBarInactiveTintColor: "#FFB3C1", // Rosa claro para íconos inactivos
         tabBarShowLabel: false,
       }}
     >
@@ -37,6 +36,9 @@ export default function Layout() {
           ),
           headerTitle: "",
           headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: "#FFF0F3", // Fondo claro para el header
+          },
         }}
       />
       <Tabs.Screen
@@ -68,12 +70,12 @@ export default function Layout() {
                   height: size,
                 }}
                 className={cn(
-                  focused && "border border-white rounded-full p-0.5"
+                  focused && "border border-[#FFF0F3] rounded-full p-0.5" // Borde claro cuando está enfocado
                 )}
               >
                 <Image
                   source={profile.avatar_url}
-                  className="flex-1 aspect-square rounded-full bg-neutral-200"
+                  className="flex-1 aspect-square rounded-full bg-[#FFCCD5]" // Fondo rosa pastel para la imagen
                 />
               </View>
             ) : (

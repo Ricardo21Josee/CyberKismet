@@ -35,14 +35,26 @@ const Page = () => {
   };
 
   return (
-    <View className="bg-white flex-1 p-5">
+    <View
+      style={{
+        flex: 1,
+        padding: 20,
+        backgroundColor: "#FFF0F3", // Fondo rosa claro
+      }}
+    >
+      {/* Header - El texto "Ethnicity" se maneja dentro de StackHeaderV4 */}
       <StackHeaderV4 title="Ethnicity" onPressBack={handlePress} />
-      <CheckboxList
-        options={data}
-        initialSelection={selected}
-        onChange={setSelected}
-      />
+
+      {/* Lista - Los estilos de checkbox se manejan dentro de CheckboxList */}
+      <View style={{ marginTop: 16 }}>
+        <CheckboxList
+          options={data}
+          initialSelection={selected}
+          onChange={setSelected}
+        />
+      </View>
     </View>
   );
 };
+
 export default Page;

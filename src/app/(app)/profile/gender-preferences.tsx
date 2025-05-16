@@ -1,7 +1,6 @@
 import { PrivateProfile } from "@/api/my-profile/types";
 import { useGenders } from "@/api/options";
 import { CheckboxList } from "@/components/checkbox-list";
-import { StackHeaderV4 } from "@/components/stack-header-v4";
 import { useEdit } from "@/store/edit";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -23,16 +22,35 @@ export default function Page() {
   };
 
   return (
-    <View className="flex-1 bg-white p-5">
-      <StackHeaderV4 title="I'm interested in" onPressBack={handlePress} />
-      <CheckboxList
-        options={data.map((item) => ({
-          id: item.id,
-          name: item.plural_name || item.name,
-        }))}
-        onChange={setSelected}
-        initialSelection={selected}
-      />
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#FFF0F3", // Fondo rosa claro
+        padding: 20,
+      }}
+    >
+      {/* Contenedor de la lista de checkboxes */}
+      <View
+        style={{
+          backgroundColor: "#FFFFFF", // Fondo blanco
+          borderRadius: 10,
+          padding: 15,
+          shadowColor: "#590D22", // Sombra rojo oscuro
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3,
+        }}
+      >
+        <CheckboxList
+          options={data.map((item) => ({
+            id: item.id,
+            name: item.plural_name || item.name,
+          }))}
+          onChange={setSelected}
+          initialSelection={selected}
+        />
+      </View>
     </View>
   );
 }

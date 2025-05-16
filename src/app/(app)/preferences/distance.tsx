@@ -29,18 +29,27 @@ const Page = () => {
   };
 
   return (
-    <View className="bg-white flex-1 px-5 py-20 ">
-      <StackHeaderV4 title="Maximum distance" onPressBack={handlePress} />
+    <View className="flex-1 px-5 py-20" style={{ backgroundColor: "#FFF0F3" }}>
+      <StackHeaderV4
+        title="Maximum distance"
+        onPressBack={handlePress}
+        // El color del título deberás configurarlo dentro del componente StackHeaderV4
+      />
       <Slider
         minimumValue={1}
         maximumValue={160}
         step={1}
         value={distance}
         onValueChange={(value) => setDistance(value[0])}
+        minimumTrackTintColor="#FF4D6D"
+        maximumTrackTintColor="#FFB3C1"
+        thumbTintColor="#C9184A"
         renderAboveThumbComponent={() => {
           return (
             <View className="items-center justify-center w-16 -left-8">
-              <Text className="text-center ">{distance} km</Text>
+              <Text className="text-center" style={{ color: "#590D22" }}>
+                {distance} km
+              </Text>
             </View>
           );
         }}

@@ -1,7 +1,6 @@
 import { PrivateProfile } from "@/api/my-profile/types";
 import { useGenders } from "@/api/options";
 import { RadioList } from "@/components/radio-list";
-import { StackHeaderV4 } from "@/components/stack-header-v4";
 import { useEdit } from "@/store/edit";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -23,13 +22,37 @@ export default function Page() {
   };
 
   return (
-    <View className="flex-1 bg-white p-5">
-      <StackHeaderV4 title="Gender" onPressBack={handlePress} />
-      <RadioList
-        options={data.map((item) => ({ id: item.id, name: item.name }))}
-        onChange={setSelected}
-        initialSelection={selected}
-      />
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#FFF0F3", // Fondo rosa claro
+        paddingHorizontal: 20,
+        paddingTop: 20,
+      }}
+    >
+      {/* Contenedor de opciones */}
+      <View
+        style={{
+          marginTop: 24,
+          backgroundColor: "#FFFFFF", // Fondo blanco
+          borderRadius: 12,
+          paddingVertical: 16,
+          paddingHorizontal: 18,
+          shadowColor: "#590D22", // Sombra rosada
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+          elevation: 3,
+          borderWidth: 1,
+          borderColor: "#FFCCD5", // Borde sutil
+        }}
+      >
+        <RadioList
+          options={data.map((item) => ({ id: item.id, name: item.name }))}
+          onChange={setSelected}
+          initialSelection={selected}
+        />
+      </View>
     </View>
   );
 }

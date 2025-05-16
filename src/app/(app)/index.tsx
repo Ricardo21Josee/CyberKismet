@@ -30,16 +30,16 @@ export default function Page() {
 
   if (isPending) {
     return (
-      <View className="flex-1 bg-white items-center justify-center">
-        <ActivityIndicator size={"small"} />
+      <View className="flex-1 bg-[#FFF0F3] items-center justify-center">
+        <ActivityIndicator size={"small"} color="#A4133C" />
       </View>
     );
   }
 
   if (isError) {
     return (
-      <View className="flex-1 bg-white items-center justify-center">
-        <Text>Something went wrong.</Text>
+      <View className="flex-1 bg-[#FFF0F3] items-center justify-center">
+        <Text className="text-[#590D22]">Something went wrong.</Text>
       </View>
     );
   }

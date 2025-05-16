@@ -9,20 +9,25 @@ export default function Page() {
 
   if (!edits) {
     return (
-      <View className="flex-1 bg-white items-center justify-center">
-        <Text>Something went wrong.</Text>
+      <View
+        className="flex-1 items-center justify-center"
+        style={{ backgroundColor: "#FFF0F3" }}
+      >
+        <Text style={{ color: "#590D22" }}>Something went wrong.</Text>
       </View>
     );
   }
 
   return (
-    <View className="flex-1 bg-white p-5">
+    <View className="flex-1 p-5" style={{ backgroundColor: "#FFF0F3" }}>
       <StackHeaderV2 title="Dating Preferences" />
-      <List
-        title="Dating Preferences"
-        data={memberPreferences}
-        profile={edits}
-      />
+      <View style={{ marginTop: 16 }}>
+        <List
+          title="Dating Preferences"
+          data={memberPreferences}
+          profile={edits}
+        />
+      </View>
     </View>
   );
 }
