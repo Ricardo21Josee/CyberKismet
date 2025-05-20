@@ -11,7 +11,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import colors from "tailwindcss/colors";
 
 export default function Page() {
   const [otp, setOtp] = useState("");
@@ -41,57 +40,70 @@ export default function Page() {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-[#FFCCD5] p-5"
+      className="flex-1 bg-[#FFF0F3]"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={100}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
     >
-      <StackHeader />
-      <StatusBar barStyle={"dark-content"} />
-      <View className="flex-1 justify-center pt-28">
-        <View className="flex-1">
-          <Text className="text-[#C9184A] text-4xl font-playfair-semibold">
-            Enter your verification code?
-          </Text>
-          <View className="h-28" />
-          <View className="flex-row gap-2 h-16">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <View
-                key={index}
-                className="border-b flex-1 items-center justify-center"
-              >
-                <Text className="text-4xl font-poppins-semibold">
-                  {otp[index] || ""}
-                </Text>
-              </View>
-            ))}
-          </View>
-          <TextInput
-            className="absoulte h-1 w-1 opacity-0"
-            style={
-              Platform.OS === "ios" && {
-                lineHeight: undefined,
-              }
-            }
-            selectionColor={colors.black}
-            keyboardType="numeric"
-            textContentType="oneTimeCode"
-            autoFocus={true}
-            value={otp}
-            onChangeText={handleOtpChange}
-            maxLength={6}
-          />
-          {isError && (
-            <Text className="text-red-500 text-sm text-center mt-4">
-              {error.message}
+      <StatusBar backgroundColor="#FFF0F3" barStyle="dark-content" />
+      <View className="flex-1 px-6">
+        <StackHeader />
+
+        {/* Contenido principal */}
+        <View className="flex-1 justify-center">
+          <View className="mb-10">
+            <Text className="text-[#590D22] text-3xl font-playfair-semibold mb-2">
+              Enter verification code
             </Text>
-          )}
+            <Text className="text-[#A4133C] text-base font-poppins-regular">
+              We sent a 6-digit code to {phone}
+            </Text>
+          </View>
+
+          {/* OTP Input */}
+          <View className="mb-8">
+            <View className="flex-row justify-between gap-3">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <View
+                  key={index}
+                  className={`flex-1 aspect-square items-center justify-center rounded-lg border-2 ${
+                    otp[index] ? "border-[#C9184A]" : "border-[#FFB3C1]"
+                  } bg-white`}
+                >
+                  <Text className="text-[#590D22] text-3xl font-poppins-semibold">
+                    {otp[index] || ""}
+                  </Text>
+                </View>
+              ))}
+            </View>
+
+            <TextInput
+              className="absolute h-1 w-1 opacity-0"
+              keyboardType="numeric"
+              textContentType="oneTimeCode"
+              autoFocus={true}
+              value={otp}
+              onChangeText={handleOtpChange}
+              maxLength={6}
+            />
+
+            {isError && (
+              <Text className="text-[#C9184A] text-sm font-poppins-medium mt-4 text-center">
+                {error.message}
+              </Text>
+            )}
+          </View>
         </View>
-        <View className="items-end">
+
+        {/* Botón de acción */}
+        <View className="pb-8 items-center">
           <Fab
             disabled={!isValid || isPending}
             onPress={handleSubmit}
             loading={isPending}
-            className="bg-[#590D22]"
+            className={`w-full py-4 rounded-full ${isValid ? "bg-[#C9184A]" : "bg-[#FFB3C1]"}`}
+            iconName="checkmark"
+            iconClassName="text-white text-2xl"
+            loaderClassName="text-white"
           />
         </View>
       </View>

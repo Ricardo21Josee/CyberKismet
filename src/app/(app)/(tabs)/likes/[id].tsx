@@ -1,10 +1,16 @@
 import { useLikes, useMatch, useRemoveLike } from "@/api/profiles";
-import { Fab } from "@/components/fab";
 import { ProfileView } from "@/components/profile-view";
 import { transformPublicProfile } from "@/utils/profile";
-import { Image } from "expo-image";
+import { Ionicons } from "@expo/vector-icons";
 import { Redirect, Stack, router, useLocalSearchParams } from "expo-router";
-import { Alert, Pressable, ScrollView, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 
 const Page = () => {
   const { id } = useLocalSearchParams();
@@ -48,11 +54,16 @@ const Page = () => {
   profile = transformPublicProfile(like.profile);
 
   return (
-    <View className="flex-1 px-5 bg-FFF0F3">
+    <View className="flex-1 bg-FFF0F3">
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <Pressable onPressOut={() => router.back()}>
+            <Pressable
+              onPressOut={() => router.back()}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
               <Text
                 className="text-base font-poppins-medium text-590D22"
                 suppressHighlighting
@@ -63,41 +74,59 @@ const Page = () => {
           ),
           title: "",
           headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: "#FFF0F3",
+          },
         }}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View className="h-28 bg-FFCCD5 overflow-hidden rounded-md ">
-          {like?.photo_url ? (
-            <Image source={like?.photo_url} className="aspect-square w-full" />
-          ) : (
-            <View className="flex-1 justify-center p-5">
-              <Text className="text-xl font-playfair-semibold text-800F2F">
-                {like?.answer_text}
-              </Text>
-            </View>
-          )}
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
+        <View className="px-5 mt-6">
+          <ProfileView profile={profile} />
         </View>
-        <ProfileView profile={profile} />
       </ScrollView>
 
-      <Fab
-        className="absolute bottom-5 left-5 bg-FF4D6D shadow-sm h-20"
-        iconClassName="text-white text-4xl"
-        iconName="close"
-        onPress={handleRemove}
-        loading={removePending}
-        loaderClassName="text-white"
-        disabled={removePending || matchPending}
-      />
-      <Fab
-        className="absolute bottom-5 right-5 bg-FF4D6D shadow-sm h-20"
-        iconClassName="text-white text-4xl"
-        iconName="chatbox-outline"
-        onPress={handleMatch}
-        loading={matchPending}
-        loaderClassName="text-white"
-        disabled={removePending || matchPending}
-      />
+      {/* Botones de acción simplificados */}
+      <View className="absolute bottom-5 left-0 right-0 px-5 flex-row justify-between">
+        {/* Botón de Rechazar */}
+        <Pressable
+          onPress={handleRemove}
+          disabled={removePending || matchPending}
+          className={`h-16 w-16 rounded-full items-center justify-center ${
+            removePending || matchPending ? "bg-[#FFB3C1]" : "bg-[#FF4D6D]"
+          } shadow-md`}
+          style={({ pressed }) => ({
+            transform: [{ scale: pressed ? 0.95 : 1 }],
+          })}
+        >
+          {removePending ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Ionicons name="close" size={32} color="white" />
+          )}
+        </Pressable>
+
+        {/* Botón de Chat */}
+        <Pressable
+          onPress={handleMatch}
+          disabled={removePending || matchPending}
+          className={`h-16 w-16 rounded-full items-center justify-center ${
+            removePending || matchPending ? "bg-[#FFB3C1]" : "bg-[#FF4D6D]"
+          } shadow-md`}
+          style={({ pressed }) => ({
+            transform: [{ scale: pressed ? 0.95 : 1 }],
+          })}
+        >
+          {matchPending ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Ionicons name="chatbubble-outline" size={28} color="white" />
+          )}
+        </Pressable>
+      </View>
     </View>
   );
 };
