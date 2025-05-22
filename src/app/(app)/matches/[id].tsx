@@ -97,7 +97,7 @@ export default function Page() {
 
   const { sdk } = useSendbirdChat();
   const { channel } = useGroupChannel(sdk, id);
-  if (!channel) return null;
+  if (!channel) return <Text>Canal no encontrado o no tienes acceso</Text>;
 
   return (
     <View style={{ flex: 1, backgroundColor: "#FFF0F3" }}>

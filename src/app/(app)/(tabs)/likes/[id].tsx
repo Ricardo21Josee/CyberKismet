@@ -1,5 +1,11 @@
-import { useLikes, useMatch, useRemoveLike } from "@/api/profiles";
+import {
+  useCreateChannel,
+  useLikes,
+  useMatch,
+  useRemoveLike,
+} from "@/api/profiles";
 import { ProfileView } from "@/components/profile-view";
+import { supabase } from "@/lib/supabase";
 import { transformPublicProfile } from "@/utils/profile";
 import { Ionicons } from "@expo/vector-icons";
 import { Redirect, Stack, router, useLocalSearchParams } from "expo-router";
@@ -15,9 +21,10 @@ import {
 const Page = () => {
   const { id } = useLocalSearchParams();
   const { mutate: remove, isPending: removePending } = useRemoveLike();
-  const { mutate: match, isPending: matchPending } = useMatch();
+  const { isPending: matchPending } = useMatch();
+  const { mutateAsync: createChannel } = useCreateChannel();
 
-  const { data } = useLikes();
+  const { data, refetch } = useLikes();
   const like = data.find((like) => like.id === id);
   let profile;
 
@@ -34,16 +41,34 @@ const Page = () => {
     }
   };
 
-  const handleMatch = () => {
-    if (like) {
-      match(like.id, {
-        onSuccess: () => {
-          router.back();
-        },
-        onError: () => {
-          Alert.alert("Error", "Something went wrong, please try again later");
-        },
-      });
+  const handleMatch = async () => {
+    if (!like) return;
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      Alert.alert("Error", "No se pudo obtener el usuario actual");
+      return;
+    }
+    const user1 = user.id;
+    const user2 = like.profile.id;
+    const channel = `channel_${user1}_${user2}`;
+    const data = await createChannel({ user1, user2, channel });
+
+    try {
+      console.log("Resultado createChannel:", data);
+      if (!data?.channel_url) {
+        Alert.alert("Error", "No se pudo crear el canal de chat");
+        return;
+      }
+      await refetch(); // Refresca la lista de likes
+      router.replace(`/matches/${data.channel_url}`);
+    } catch (e: any) {
+      Alert.alert(
+        "Error",
+        e?.message || "No se pudo crear el chat, intenta más tarde"
+      );
+      console.log("Error al crear canal:", e);
     }
   };
 

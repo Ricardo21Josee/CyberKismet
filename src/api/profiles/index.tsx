@@ -139,3 +139,26 @@ export const useUnmatch = () => {
     },
   });
 };
+
+export const useCreateChannel = () => {
+  return useMutation({
+    mutationFn: async ({
+      user1,
+      user2,
+      channel,
+    }: {
+      user1: string;
+      user2: string;
+      channel: string;
+    }) => {
+      const { data, error } = await (supabase.rpc as any)("create_channel", {
+        user1,
+        user2,
+        channel,
+      });
+      if (error) throw error;
+      // Fuerza el tipo de retorno para evitar errores de TypeScript
+      return data?.[0] as { channel_url: string } | undefined;
+    },
+  });
+};
