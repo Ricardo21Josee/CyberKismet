@@ -40,11 +40,11 @@ export default function Page() {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-[#FFF0F3]"
+      className="flex-1 bg-[#FFFFFF]"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
     >
-      <StatusBar backgroundColor="#FFF0F3" barStyle="dark-content" />
+      <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
       <View className="flex-1 px-6">
         <StackHeader />
 

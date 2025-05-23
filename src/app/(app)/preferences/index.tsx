@@ -11,7 +11,7 @@ export default function Page() {
     return (
       <View
         className="flex-1 items-center justify-center"
-        style={{ backgroundColor: "#FFF0F3" }}
+        style={{ backgroundColor: "#FFFFFF" }}
       >
         <Text style={{ color: "#590D22" }}>Something went wrong.</Text>
       </View>
@@ -19,7 +19,7 @@ export default function Page() {
   }
 
   return (
-    <View className="flex-1 p-5" style={{ backgroundColor: "#FFF0F3" }}>
+    <View className="flex-1 p-5" style={{ backgroundColor: "#FFFFFF" }}>
       <StackHeaderV2 title="Dating Preferences" />
       <View style={{ marginTop: 16 }}>
         <List

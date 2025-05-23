@@ -47,7 +47,7 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF0F3", // Light pink background
+    backgroundColor: "#FFFFFF", // Light pink background
     paddingHorizontal: 20,
     paddingTop: 20,
   },

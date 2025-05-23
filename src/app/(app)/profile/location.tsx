@@ -48,8 +48,6 @@ export default function Page() {
         Only the neighborhood name will appear on your profile.
       </Text>
 
-      {/* Contenedor del mapa que ocupa todo el espacio disponible */}
-
       <LocationView
         location={selectedLocation}
         onLocationChange={handleLocationChange}
@@ -76,7 +74,7 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF0F3",
+    backgroundColor: "#FFFFFF",
     paddingHorizontal: 20,
     paddingTop: 20,
   },

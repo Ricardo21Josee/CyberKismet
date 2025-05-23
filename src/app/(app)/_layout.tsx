@@ -24,7 +24,7 @@ export default function Layout() {
         screenOptions={{
           headerShown: false,
           contentStyle: {
-            backgroundColor: "#FFF0F3", // Light pink background for all screens
+            backgroundColor: "#FFFFFF", // Light pink background for all screens
           },
         }}
       >
@@ -33,35 +33,35 @@ export default function Layout() {
           name="settings"
           options={{
             animation: "slide_from_bottom",
-            contentStyle: { backgroundColor: "#FFF0F3" },
+            contentStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
         <Stack.Screen
           name="profile"
           options={{
             animation: "slide_from_bottom",
-            contentStyle: { backgroundColor: "#FFF0F3" },
+            contentStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
         <Stack.Screen
           name="write-answer"
           options={{
             animation: "slide_from_bottom",
-            contentStyle: { backgroundColor: "#FFF0F3" },
+            contentStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
         <Stack.Screen
           name="prompts"
           options={{
             animation: "slide_from_bottom",
-            contentStyle: { backgroundColor: "#FFF0F3" },
+            contentStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
         <Stack.Screen
           name="preferences"
           options={{
             animation: "slide_from_bottom",
-            contentStyle: { backgroundColor: "#FFF0F3" },
+            contentStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
       </Stack>

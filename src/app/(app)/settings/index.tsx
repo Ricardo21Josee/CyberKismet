@@ -6,7 +6,7 @@ const Page = () => {
   const { mutate } = useSignOut();
 
   return (
-    <View className="flex-1 bg-[#FFF0F3] p-5">
+    <View className="flex-1 bg-[#FFFFFF] p-5">
       <StackHeaderV2 title="Settings" />
       <TouchableOpacity
         className="p-3 border-y border-[#FFB3C1]"

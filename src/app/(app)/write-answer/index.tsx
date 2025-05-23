@@ -74,7 +74,7 @@ export default function Page() {
   };
 
   return (
-    <View className="flex-1 bg-[#FFF0F3] p-5">
+    <View className="flex-1 bg-[#FFFFFF] p-5">
       <StackHeaderV3
         title="Write answer"
         onPressCancel={handlePressCancel}
@@ -91,12 +91,12 @@ export default function Page() {
           asChild
           suppressHighlighting
         >
-          <Pressable className="border border-[#FFB3C1] rounded-md px-5 py-6 bg-[#FFF0F3]">
+          <Pressable className="border border-[#FFB3C1] rounded-md px-5 py-6 bg-[#FFFFFF]">
             <Text className="text-base text-[#590D22]">{prompt?.question}</Text>
           </Pressable>
         </Link>
         <TextInput
-          className="border border-[#FFB3C1] rounded-md p-5 h-36 bg-[#FFF0F3] text-[#590D22]"
+          className="border border-[#FFB3C1] rounded-md p-5 h-36 bg-[#FFFFFF] text-[#590D22]"
           multiline={true}
           numberOfLines={6}
           maxLength={255}

@@ -100,7 +100,7 @@ const Page = () => {
           title: "",
           headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: "#FFF0F3",
+            backgroundColor: "#FFFFFF",
           },
         }}
       />

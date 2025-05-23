@@ -4,7 +4,7 @@ export default function Layout() {
   return (
     <Stack
       screenOptions={{
-        headerTintColor: "#FFF0F3", // Color de iconos y texto
+        headerTintColor: "#FFFFFF", // Color de iconos y texto
         headerTitleStyle: {
           color: "#FFF0F3", // Color del título
         },

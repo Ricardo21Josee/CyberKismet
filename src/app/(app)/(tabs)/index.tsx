@@ -124,7 +124,7 @@ export default function Page() {
   }
 
   return (
-    <View className="flex-1 bg-[#FFF0F3]">
+    <View className="flex-1 bg-[#FFFFFF]">
       <ScrollView className="flex-1 px-5">
         <Link href={"/preferences"} suppressHighlighting>
           <Ionicons name="options-outline" size={32} color="#800F2F" />
@@ -135,8 +135,8 @@ export default function Page() {
         onPress={handleSkip}
         iconName="close"
         className="bg-[#FF758F] shadow-sm active:h-[4.75rem] h-20 absolute bottom-5 left-5"
-        iconClassName="text-[#FFF0F3] text-4xl"
-        loaderClassName="text-[#FFF0F3]"
+        iconClassName="text-[#FFFFFF] text-4xl"
+        loaderClassName="text-[#FFFFFF]"
       />
     </View>
   );

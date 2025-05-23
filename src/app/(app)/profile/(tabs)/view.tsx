@@ -10,7 +10,7 @@ export default function Page() {
     return (
       <View
         className="flex-1 items-center justify-center"
-        style={{ backgroundColor: "#FFF0F3" }} // Fondo rosa claro
+        style={{ backgroundColor: "#FFFFFF" }} // Fondo rosa claro
       >
         <Text style={{ color: "#590D22" }}>Something went wrong.</Text>{" "}
         {/* Texto rojo oscuro */}
@@ -21,13 +21,9 @@ export default function Page() {
   return (
     <View
       className="flex-1 px-5"
-      style={{ backgroundColor: "#FFF0F3" }} // Fondo rosa claro
+      style={{ backgroundColor: "#FFFFFF" }} // Fondo rosa claro
     >
-      <ProfileView
-        profile={transformPrivateProfile(edits)}
-        myProfile
-        // Los colores internos deben manejarse dentro del componente ProfileView
-      />
+      <ProfileView profile={transformPrivateProfile(edits)} myProfile />
     </View>
   );
 }

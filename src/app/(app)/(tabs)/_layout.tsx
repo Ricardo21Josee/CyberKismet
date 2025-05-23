@@ -23,7 +23,7 @@ export default function Layout() {
         tabBarStyle: {
           backgroundColor: "#590D22", // Color más oscuro de la paleta para la barra
         },
-        tabBarActiveTintColor: "#FFF0F3", // Color claro para íconos activos
+        tabBarActiveTintColor: "#FFFFFF", // Color claro para íconos activos
         tabBarInactiveTintColor: "#FFB3C1", // Rosa claro para íconos inactivos
         tabBarShowLabel: false,
       }}
@@ -37,7 +37,7 @@ export default function Layout() {
           headerTitle: "",
           headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: "#FFF0F3", // Fondo claro para el header
+            backgroundColor: "#FFFFFF", // Fondo claro para el header
           },
         }}
       />

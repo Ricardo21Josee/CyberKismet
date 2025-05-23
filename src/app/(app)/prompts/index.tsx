@@ -17,7 +17,7 @@ export default function Page() {
     });
   };
   return (
-    <View className="flex-1 bg-[#FFF0F3]">
+    <View className="flex-1 bg-[#FFFFFF]">
       <StackHeaderV2 title="Prompts" />
       <FlatList
         data={prompts}

@@ -5,10 +5,10 @@ export default function Layout() {
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#FFF0F3", // Fondo rosa claro
+          backgroundColor: "#FFFFFF", // Fondo rosa claro
         },
         contentStyle: {
-          backgroundColor: "#FFF0F3", // Fondo del contenido
+          backgroundColor: "#FFFFFF", // Fondo del contenido
         },
         headerTintColor: "#590D22", // Color de iconos y botones
         headerTitleStyle: {

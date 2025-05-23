@@ -29,7 +29,7 @@ const Page = () => {
   };
 
   return (
-    <View className="flex-1 px-5 pt-10" style={{ backgroundColor: "#FFF0F3" }}>
+    <View className="flex-1 px-5 pt-10" style={{ backgroundColor: "#FFFFFF" }}>
       <StackHeaderV4 title="Maximum distance" onPressBack={handlePress} />
 
       <View className="flex-1 justify-center">

@@ -47,7 +47,7 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF0F3", // Fondo rosa claro
+    backgroundColor: "#FFFFFF", // Fondo rosa claro
     paddingHorizontal: 20,
     paddingTop: 20,
   },

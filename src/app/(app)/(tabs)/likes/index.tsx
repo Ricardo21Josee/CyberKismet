@@ -13,7 +13,7 @@ export default function Page() {
 
   const renderHeader = () => {
     return (
-      <View className="gap-5 bg-[#FFF0F3] pb-4">
+      <View className="gap-5 bg-[#FFFFFF] pb-4">
         <Text className="text-3xl font-poppins-semibold text-[#590D22] px-5 pt-4">
           Likes You
         </Text>
@@ -69,7 +69,7 @@ export default function Page() {
   };
 
   return (
-    <View className="flex-1 bg-[#FFF0F3]">
+    <View className="flex-1 bg-[#FFFFFF]">
       <FlatList
         data={data.length > 1 ? data.slice(1) : []}
         renderItem={({ item, index }) => (

@@ -10,7 +10,7 @@ import HingeLogo from "~/assets/images/hinge-logo.svg";
 export default function Page() {
   const { data: profile } = useMyProfile();
   return (
-    <SafeAreaView className="flex-1 bg-[#FFF0F3]">
+    <SafeAreaView className="flex-1 bg-[#FFFFFF]">
       <Stack.Screen
         options={{
           headerShown: false,

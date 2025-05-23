@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#FFF0F3",
+    backgroundColor: "#FFFFFF",
   },
   selectorContainer: {
     flex: 1,

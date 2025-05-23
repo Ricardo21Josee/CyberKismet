@@ -13,7 +13,7 @@ export default function Page() {
     return (
       <View
         className="flex-1 items-center justify-center"
-        style={{ backgroundColor: "#FFF0F3" }}
+        style={{ backgroundColor: "#FFFFFF" }}
       >
         <Text style={{ color: "#590D22" }}>Something went wrong.</Text>
       </View>
@@ -22,7 +22,7 @@ export default function Page() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: "#FFF0F3", paddingTop: 40 }}
+      style={{ flex: 1, backgroundColor: "#FFFFFF", paddingTop: 40 }}
       contentContainerStyle={{ paddingBottom: 80, gap: 20 }}
       showsVerticalScrollIndicator={false}
       scrollEnabled={!gridActive}
