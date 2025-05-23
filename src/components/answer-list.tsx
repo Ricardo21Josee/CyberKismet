@@ -1,9 +1,9 @@
-import { Answer, PrivateProfile } from "@/api/my-profile/types";
-import { useEdit } from "@/store/edit";
-import { router } from "expo-router";
-import { FC, useEffect, useState } from "react";
-import { Dimensions, Text, View } from "react-native";
-import { DraggableGrid } from "react-native-draggable-grid";
+import { Answer, PrivateProfile } from "@/api/my-profile/types"; // Tipos de respuesta y perfil privado / Answer and private profile types
+import { useEdit } from "@/store/edit"; // Hook para editar el perfil / Hook to edit profile
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { FC, useEffect, useState } from "react"; // Componentes y hooks de React / React components and hooks
+import { Dimensions, Text, View } from "react-native"; // Componentes básicos de UI / Basic UI components
+import { DraggableGrid } from "react-native-draggable-grid"; // Grid arrastrable para ordenar respuestas / Draggable grid for ordering answers
 
 type Item = {
   key: string;
@@ -29,12 +29,14 @@ export const AnswerList: FC<Props> = ({
   height = 120,
   slots = 3,
 }) => {
+  // Calcula el ancho y tamaño de cada celda / Calculates width and size for each cell
   const width = Dimensions.get("window").width - margin * 2;
   const size = width / columns - spacing;
 
-  const [data, setData] = useState<Item[]>([]);
-  const { setEdits: setMyProfileChanges, setGridActive } = useEdit();
+  const [data, setData] = useState<Item[]>([]); // Estado para los ítems del grid / State for grid items
+  const { setEdits: setMyProfileChanges, setGridActive } = useEdit(); // Funciones para editar perfil y activar grid / Functions to edit profile and activate grid
 
+  // Inicializa o actualiza los datos del grid cuando cambia el perfil / Initializes or updates grid data when profile changes
   useEffect(() => {
     if (!data.length) {
       const initialData: Item[] = Array(slots)
@@ -64,6 +66,7 @@ export const AnswerList: FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile]);
 
+  // Renderiza cada celda del grid / Renders each grid cell
   const renderItem = (item: Item) => {
     return (
       <View
@@ -75,6 +78,7 @@ export const AnswerList: FC<Props> = ({
         key={item.key}
       >
         {item.answer ? (
+          // Celda con respuesta / Cell with answer
           <View className="flex-1 rounded-md overflow-hidden border border-neutral-200 p-5">
             <Text className="text-base font-poppins-regular">
               {item.answer.question}
@@ -87,12 +91,14 @@ export const AnswerList: FC<Props> = ({
             </Text>
           </View>
         ) : (
+          // Celda vacía para agregar respuesta / Empty cell to add answer
           <View className="flex-1 rounded-md border border-red-600 border-dashed" />
         )}
       </View>
     );
   };
 
+  // Maneja el evento al soltar un ítem tras arrastrar / Handles event when an item is dropped after dragging
   const onDragRelease = (data: Item[]) => {
     const answers = data
       .map((item, index) => {
@@ -111,12 +117,15 @@ export const AnswerList: FC<Props> = ({
     setGridActive(false);
   };
 
+  // Activa el modo de grid arrastrable / Activates draggable grid mode
   const onDragItemActive = () => {
     setGridActive(true);
   };
 
+  // Maneja el click en una celda / Handles click on a cell
   const onItemPress = (item: Item) => {
     if (item.answer) {
+      // Si hay respuesta, navega a editarla / If answer exists, navigate to edit
       router.push({
         pathname: "/(app)/write-answer",
         params: {
@@ -125,6 +134,7 @@ export const AnswerList: FC<Props> = ({
         },
       });
     } else {
+      // Si está vacía, navega a prompts / If empty, navigate to prompts
       router.push("/(app)/prompts");
     }
     return;
@@ -138,6 +148,7 @@ export const AnswerList: FC<Props> = ({
           alignSelf: "center",
         }}
       >
+        {/* Grid arrastrable de respuestas / Draggable grid of answers */}
         <DraggableGrid
           numColumns={1}
           renderItem={renderItem}

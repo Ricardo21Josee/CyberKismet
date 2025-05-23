@@ -1,21 +1,22 @@
-import { useUpdateLocation } from "@/api/my-profile";
-import { LocationView } from "@/components/location-view";
-import { StackHeaderV4 } from "@/components/stack-header-v4";
-import { useEdit } from "@/store/edit";
-import { LocationData } from "@/types/location";
-import { router } from "expo-router";
-import { useState } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useUpdateLocation } from "@/api/my-profile"; // Hook para actualizar la ubicación / Hook to update location
+import { LocationView } from "@/components/location-view"; // Componente para mostrar y seleccionar ubicación / Component to display and select location
+import { StackHeaderV4 } from "@/components/stack-header-v4"; // Header personalizado / Custom header
+import { useEdit } from "@/store/edit"; // Hook para editar preferencias / Hook to edit preferences
+import { LocationData } from "@/types/location"; // Tipo de datos de ubicación / Location data type
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native"; // Componentes básicos de UI / Basic UI components
 
 export default function Page() {
-  const { edits } = useEdit();
+  const { edits } = useEdit(); // Obtiene las preferencias editadas / Gets edited preferences
   const [selectedLocation, setSelectedLocation] = useState<LocationData>({
     latitude: edits?.latitude || null,
     longitude: edits?.longitude || null,
     neighborhood: edits?.neighborhood || null,
-  });
-  const { mutate, reset } = useUpdateLocation();
+  }); // Estado para la ubicación seleccionada / State for selected location
+  const { mutate, reset } = useUpdateLocation(); // Mutación para actualizar ubicación / Mutation to update location
 
+  // Maneja el cambio de ubicación seleccionada / Handles selected location change
   const handleLocationChange = (location: LocationData | null) => {
     if (location) {
       setSelectedLocation(location);
@@ -28,6 +29,7 @@ export default function Page() {
     }
   };
 
+  // Maneja el guardado de la ubicación / Handles saving the location
   const handlePress = () => {
     if (
       selectedLocation.latitude !== null &&
@@ -42,13 +44,13 @@ export default function Page() {
         },
         {
           onSuccess: () => {
-            router.back();
+            router.back(); // Vuelve atrás si es exitoso / Go back if successful
           },
           onError: () => {
             Alert.alert(
               "Error",
               "Something went wrong, please try again later."
-            );
+            ); // Muestra error / Show error
             reset();
           },
         }
@@ -57,11 +59,13 @@ export default function Page() {
     router.back();
   };
 
+  // ¿La ubicación es válida? / Is the location valid?
   const hasValidLocation =
     selectedLocation.latitude !== null &&
     selectedLocation.longitude !== null &&
     selectedLocation.neighborhood !== null;
 
+  // Render principal de la pantalla de ubicación / Main render for location screen
   return (
     <View style={styles.container}>
       <StackHeaderV4 title="Set Your Location" onPressBack={handlePress} />
@@ -106,6 +110,7 @@ export default function Page() {
   );
 }
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,

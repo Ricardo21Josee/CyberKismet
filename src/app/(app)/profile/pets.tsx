@@ -1,16 +1,17 @@
-import { PrivateProfile } from "@/api/my-profile/types";
-import { usePets } from "@/api/options";
-import { CheckboxList } from "@/components/checkbox-list";
-import { useEdit } from "@/store/edit";
-import { router } from "expo-router";
-import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { PrivateProfile } from "@/api/my-profile/types"; // Tipo de perfil privado / Private profile type
+import { usePets } from "@/api/options"; // Hook para obtener opciones de mascotas / Hook to get pet options
+import { CheckboxList } from "@/components/checkbox-list"; // Lista de opciones tipo checkbox / Checkbox options list
+import { useEdit } from "@/store/edit"; // Hook para editar el perfil / Hook to edit profile
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"; // Componentes básicos de UI / Basic UI components
 
 export default function Page() {
-  const { edits, setEdits } = useEdit();
-  const { data } = usePets();
-  const [selected, setSelected] = useState(edits?.pets || []);
+  const { edits, setEdits } = useEdit(); // Obtiene y actualiza los datos editados / Gets and sets edited data
+  const { data } = usePets(); // Opciones de mascotas disponibles / Available pet options
+  const [selected, setSelected] = useState(edits?.pets || []); // Estado para las mascotas seleccionadas / State for selected pets
 
+  // Maneja el guardado de la selección / Handles saving the selection
   const handleSave = () => {
     if (selected) {
       setEdits({
@@ -23,13 +24,13 @@ export default function Page() {
 
   return (
     <View style={styles.container}>
-      {/* Header con icono de mascotas */}
+      {/* Header con icono de mascotas / Header with pet icon */}
       <View style={styles.header}>
         <Text style={styles.title}>Pet Preferences</Text>
         <Text style={styles.subtitle}>Select all that apply</Text>
       </View>
 
-      {/* Tarjeta de selección premium */}
+      {/* Tarjeta de selección premium / Premium selection card */}
       <View style={styles.listContainer}>
         <CheckboxList
           options={data}
@@ -38,7 +39,7 @@ export default function Page() {
         />
       </View>
 
-      {/* Panel de selección interactivo */}
+      {/* Panel de selección interactivo / Interactive selection panel */}
       <View style={styles.footer}>
         <View style={styles.selectionSummary}>
           <Text style={styles.selectionText}>
@@ -51,6 +52,7 @@ export default function Page() {
           </View>
         </View>
 
+        {/* Botón para guardar selección / Button to save selection */}
         <TouchableOpacity
           style={[
             styles.saveButton,
@@ -68,6 +70,7 @@ export default function Page() {
   );
 }
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,

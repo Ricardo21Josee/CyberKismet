@@ -1,16 +1,17 @@
-import { PrivateProfile } from "@/api/my-profile/types";
-import { useEthnicities } from "@/api/options";
-import { CheckboxList } from "@/components/checkbox-list";
-import { useEdit } from "@/store/edit";
-import { router } from "expo-router";
-import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { PrivateProfile } from "@/api/my-profile/types"; // Tipo de perfil privado / Private profile type
+import { useEthnicities } from "@/api/options"; // Hook para obtener opciones de etnia / Hook to get ethnicity options
+import { CheckboxList } from "@/components/checkbox-list"; // Lista de opciones tipo checkbox / Checkbox options list
+import { useEdit } from "@/store/edit"; // Hook para editar el perfil / Hook to edit profile
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"; // Componentes básicos de UI / Basic UI components
 
 export default function Page() {
-  const { edits, setEdits } = useEdit();
-  const { data } = useEthnicities();
-  const [selected, setSelected] = useState(edits?.ethnicities || []);
+  const { edits, setEdits } = useEdit(); // Obtiene y actualiza los datos editados / Gets and sets edited data
+  const { data } = useEthnicities(); // Opciones de etnia disponibles / Available ethnicity options
+  const [selected, setSelected] = useState(edits?.ethnicities || []); // Estado para las etnias seleccionadas / State for selected ethnicities
 
+  // Maneja el guardado de la selección / Handles saving the selection
   const handleSave = () => {
     if (selected) {
       setEdits({
@@ -23,13 +24,13 @@ export default function Page() {
 
   return (
     <View style={styles.container}>
-      {/* Header decorativo */}
+      {/* Header decorativo / Decorative header */}
       <View style={styles.header}>
         <Text style={styles.title}>Select Your Ethnicities</Text>
         <Text style={styles.subtitle}>You can choose multiple options</Text>
       </View>
 
-      {/* Contenedor de la lista - SIN SCROLLVIEW */}
+      {/* Contenedor de la lista de etnias / Ethnicity list container */}
       <View style={styles.listContainer}>
         <CheckboxList
           options={data}
@@ -38,7 +39,7 @@ export default function Page() {
         />
       </View>
 
-      {/* Footer con botón y contador */}
+      {/* Footer con contador y botón de guardar / Footer with counter and save button */}
       <View style={styles.footer}>
         <View style={styles.counterContainer}>
           <Text style={styles.counterText}>{selected.length} selected</Text>
@@ -64,6 +65,7 @@ export default function Page() {
   );
 }
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   listContainer: {
-    flex: 1, // Ocupa todo el espacio disponible
+    flex: 1, // Ocupa todo el espacio disponible / Takes all available space
     backgroundColor: "#FFFFFF",
     borderRadius: 16,
     padding: 20,

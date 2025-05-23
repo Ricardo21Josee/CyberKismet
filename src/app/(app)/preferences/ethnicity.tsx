@@ -1,10 +1,10 @@
-import { useUpdateEthnicityPreferences } from "@/api/my-profile";
-import { Option, PrivateProfile } from "@/api/my-profile/types";
-import { useEthnicities } from "@/api/options";
-import { StackHeaderV4 } from "@/components/stack-header-v4";
-import { useEdit } from "@/store/edit";
-import { router } from "expo-router";
-import { useState } from "react";
+import { useUpdateEthnicityPreferences } from "@/api/my-profile"; // Hook para actualizar preferencias de etnia / Hook to update ethnicity preferences
+import { Option, PrivateProfile } from "@/api/my-profile/types"; // Tipos de opciones y perfil privado / Option and private profile types
+import { useEthnicities } from "@/api/options"; // Hook para obtener opciones de etnia / Hook to get ethnicity options
+import { StackHeaderV4 } from "@/components/stack-header-v4"; // Header personalizado / Custom header
+import { useEdit } from "@/store/edit"; // Hook para editar preferencias / Hook to edit preferences
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
 import {
   Alert,
   ScrollView,
@@ -12,27 +12,28 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from "react-native"; // Componentes básicos de UI / Basic UI components
 
 const Page = () => {
-  const { edits, setEdits } = useEdit();
-  const { data } = useEthnicities();
+  const { edits, setEdits } = useEdit(); // Obtiene y actualiza las ediciones / Gets and sets edits
+  const { data } = useEthnicities(); // Opciones de etnia disponibles / Available ethnicity options
   const [selected, setSelected] = useState<Option[]>(
     edits?.ethnicity_preferences || []
-  );
+  ); // Estado de etnias seleccionadas / Selected ethnicities state
 
-  const { mutate, reset } = useUpdateEthnicityPreferences();
+  const { mutate, reset } = useUpdateEthnicityPreferences(); // Mutación para guardar preferencias / Mutation to save preferences
 
+  // Maneja el guardado de preferencias / Handles saving preferences
   const handlePress = () => {
     setEdits({ ...edits, ethnicity_preferences: selected } as PrivateProfile);
     mutate(
       { ethnicities: selected.map((i) => i.id) },
       {
         onSuccess: () => {
-          router.back();
+          router.back(); // Vuelve atrás si es exitoso / Go back if successful
         },
         onError: () => {
-          Alert.alert("Error", "Something went wrong, please try again later.");
+          Alert.alert("Error", "Something went wrong, please try again later."); // Muestra error / Show error
           reset();
           router.back();
         },
@@ -40,7 +41,7 @@ const Page = () => {
     );
   };
 
-  // Función para manejar la selección/deselección
+  // Función para manejar la selección/deselección / Handles selection/deselection
   const toggleSelection = (item: Option) => {
     setSelected((prev) => {
       const isSelected = prev.some((i) => i.id === item.id);
@@ -52,6 +53,7 @@ const Page = () => {
     });
   };
 
+  // Render principal de la pantalla de preferencias de etnia / Main render for ethnicity preferences screen
   return (
     <View style={styles.container}>
       <StackHeaderV4 title="Ethnicity Preferences" onPressBack={handlePress} />
@@ -66,6 +68,7 @@ const Page = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.listContainer}>
+          {/* Lista de opciones de etnia / Ethnicity options list */}
           {data?.map((item) => (
             <TouchableOpacity
               key={item.id}
@@ -89,6 +92,7 @@ const Page = () => {
         </View>
       </ScrollView>
 
+      {/* Footer con contador y botón de guardar / Footer with counter and save button */}
       <View style={styles.footer}>
         <View style={styles.counterContainer}>
           <Text style={styles.counterText}>
@@ -117,6 +121,7 @@ const Page = () => {
   );
 };
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,26 +1,27 @@
-import { useUpdateDistance } from "@/api/my-profile";
-import { StackHeaderV4 } from "@/components/stack-header-v4";
-import { useEdit } from "@/store/edit";
-import { Slider } from "@miblanchard/react-native-slider";
-import { router } from "expo-router";
-import { useState } from "react";
-import { Alert, Text, View } from "react-native";
+import { useUpdateDistance } from "@/api/my-profile"; // Hook para actualizar la distancia máxima / Hook to update max distance
+import { StackHeaderV4 } from "@/components/stack-header-v4"; // Header personalizado / Custom header
+import { useEdit } from "@/store/edit"; // Hook para editar preferencias / Hook to edit preferences
+import { Slider } from "@miblanchard/react-native-slider"; // Componente slider / Slider component
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
+import { Alert, Text, View } from "react-native"; // Componentes básicos de UI / Basic UI components
 
 const Page = () => {
-  const { edits } = useEdit();
-  const [distance, setDistance] = useState(edits?.max_distance_km || 160);
+  const { edits } = useEdit(); // Obtiene valores editados / Gets edited values
+  const [distance, setDistance] = useState(edits?.max_distance_km || 160); // Estado para la distancia / State for distance
 
-  const { mutate, reset } = useUpdateDistance();
+  const { mutate, reset } = useUpdateDistance(); // Mutación para actualizar distancia / Mutation to update distance
 
+  // Maneja la acción de guardar la distancia / Handles saving the distance
   const handlePress = () => {
     mutate(
       { distance: distance },
       {
         onSuccess: () => {
-          router.back();
+          router.back(); // Vuelve atrás si es exitoso / Go back if successful
         },
         onError: () => {
-          Alert.alert("Error", "Something went wrong, please try again later.");
+          Alert.alert("Error", "Something went wrong, please try again later."); // Muestra error / Show error
           reset();
           router.back();
         },
@@ -28,12 +29,15 @@ const Page = () => {
     );
   };
 
+  // Render principal de la pantalla de distancia / Main render for distance screen
   return (
     <View className="flex-1 px-5 pt-10" style={{ backgroundColor: "#FFFFFF" }}>
+      {/* Header de la pantalla con botón de volver / Screen header with back button */}
       <StackHeaderV4 title="Maximum distance" onPressBack={handlePress} />
 
       <View className="flex-1 justify-center">
         <View className="mb-16 px-2">
+          {/* Título del slider / Slider title */}
           <Text
             className="text-lg font-semibold mb-6"
             style={{ color: "#590D22" }}
@@ -41,6 +45,7 @@ const Page = () => {
             Set your maximum distance preference:
           </Text>
 
+          {/* Slider para seleccionar la distancia máxima / Slider to select max distance */}
           <Slider
             minimumValue={1}
             maximumValue={160}
@@ -65,6 +70,7 @@ const Page = () => {
               borderRadius: 3,
             }}
             renderAboveThumbComponent={() => {
+              // Etiqueta sobre el pulgar del slider / Label above slider thumb
               return (
                 <View className="items-center justify-center w-16 -left-8 mb-2">
                   <View
@@ -83,6 +89,7 @@ const Page = () => {
             }}
           />
 
+          {/* Etiquetas de valores mínimo y máximo / Min and max value labels */}
           <View className="flex-row justify-between mt-2 px-1">
             <Text style={{ color: "#A4133C" }}>1 km</Text>
             <Text style={{ color: "#A4133C" }}>160 km</Text>

@@ -1,9 +1,9 @@
-import { useUpdateGenderPreferences } from "@/api/my-profile";
-import { useGenders } from "@/api/options";
-import { StackHeaderV4 } from "@/components/stack-header-v4";
-import { useEdit } from "@/store/edit";
-import { router } from "expo-router";
-import { useState } from "react";
+import { useUpdateGenderPreferences } from "@/api/my-profile"; // Hook para actualizar preferencias de género / Hook to update gender preferences
+import { useGenders } from "@/api/options"; // Hook para obtener opciones de género / Hook to get gender options
+import { StackHeaderV4 } from "@/components/stack-header-v4"; // Header personalizado / Custom header
+import { useEdit } from "@/store/edit"; // Hook para editar preferencias / Hook to edit preferences
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
 import {
   Alert,
   ScrollView,
@@ -11,14 +11,15 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from "react-native"; // Componentes básicos de UI / Basic UI components
 
 export default function Page() {
-  const { edits } = useEdit();
-  const { data } = useGenders();
-  const [selected, setSelected] = useState(edits?.gender_preferences || []);
-  const { mutate, reset } = useUpdateGenderPreferences();
+  const { edits } = useEdit(); // Obtiene las preferencias editadas / Gets edited preferences
+  const { data } = useGenders(); // Opciones de género disponibles / Available gender options
+  const [selected, setSelected] = useState(edits?.gender_preferences || []); // Estado de géneros seleccionados / Selected genders state
+  const { mutate, reset } = useUpdateGenderPreferences(); // Mutación para guardar preferencias / Mutation to save preferences
 
+  // Maneja el guardado de preferencias / Handles saving preferences
   const handlePress = () => {
     if (selected) {
       mutate(
@@ -27,13 +28,13 @@ export default function Page() {
         },
         {
           onSuccess: () => {
-            router.back();
+            router.back(); // Vuelve atrás si es exitoso / Go back if successful
           },
           onError: () => {
             Alert.alert(
               "Error",
               "Something went wrong, please try again later."
-            );
+            ); // Muestra error / Show error
             reset();
             router.back();
           },
@@ -42,6 +43,7 @@ export default function Page() {
     }
   };
 
+  // Función para manejar la selección/deselección / Handles selection/deselection
   const toggleSelection = (item) => {
     setSelected((prev) => {
       const isSelected = prev.some((i) => i.id === item.id);
@@ -53,6 +55,7 @@ export default function Page() {
     });
   };
 
+  // Render principal de la pantalla de preferencias de género / Main render for gender preferences screen
   return (
     <View style={styles.container}>
       <StackHeaderV4 title="I'm interested in" onPressBack={handlePress} />
@@ -67,6 +70,7 @@ export default function Page() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.listContainer}>
+          {/* Lista de opciones de género / Gender options list */}
           {data?.map((item) => (
             <TouchableOpacity
               key={item.id}
@@ -92,6 +96,7 @@ export default function Page() {
         </View>
       </ScrollView>
 
+      {/* Footer con contador y botón de guardar / Footer with counter and save button */}
       <View style={styles.footer}>
         <View style={styles.counterContainer}>
           <Text style={styles.counterText}>
@@ -120,6 +125,7 @@ export default function Page() {
   );
 }
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,

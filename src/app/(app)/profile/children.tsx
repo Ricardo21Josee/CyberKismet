@@ -1,16 +1,17 @@
-import { PrivateProfile } from "@/api/my-profile/types";
-import { useChildren } from "@/api/options";
-import { RadioList } from "@/components/radio-list";
-import { useEdit } from "@/store/edit";
-import { router } from "expo-router";
-import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { PrivateProfile } from "@/api/my-profile/types"; // Tipo de perfil privado / Private profile type
+import { useChildren } from "@/api/options"; // Hook para obtener opciones de hijos / Hook to get children options
+import { RadioList } from "@/components/radio-list"; // Lista de opciones tipo radio / Radio options list
+import { useEdit } from "@/store/edit"; // Hook para editar el perfil / Hook to edit profile
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"; // Componentes básicos de UI / Basic UI components
 
 export default function Page() {
-  const { edits, setEdits } = useEdit();
-  const { data } = useChildren();
-  const [selected, setSelected] = useState(edits?.children || null);
+  const { edits, setEdits } = useEdit(); // Obtiene y actualiza los datos editados / Gets and sets edited data
+  const { data } = useChildren(); // Opciones de hijos disponibles / Available children options
+  const [selected, setSelected] = useState(edits?.children || null); // Estado para la opción seleccionada / State for selected option
 
+  // Maneja el guardado de la selección / Handles saving the selection
   const handleSave = () => {
     if (selected) {
       setEdits({
@@ -23,13 +24,13 @@ export default function Page() {
 
   return (
     <View style={styles.container}>
-      {/* Header simplificado sin icono */}
+      {/* Header simplificado sin icono / Simplified header without icon */}
       <View style={styles.header}>
         <Text style={styles.title}>Family Preferences</Text>
         <Text style={styles.subtitle}>Select your ideal family size</Text>
       </View>
 
-      {/* Contenedor principal con mejor diseño */}
+      {/* Contenedor principal con mejor diseño / Main card container with improved design */}
       <View style={styles.card}>
         <RadioList
           options={data}
@@ -38,7 +39,7 @@ export default function Page() {
         />
       </View>
 
-      {/* Sección inferior con vista previa y botón */}
+      {/* Sección inferior con vista previa y botón / Footer with preview and button */}
       <View style={styles.footer}>
         <View style={styles.selectionContainer}>
           <Text style={styles.selectionLabel}>Your selection:</Text>
@@ -63,6 +64,7 @@ export default function Page() {
   );
 }
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   card: {
-    height: 170, // Altura aumentada a 450px
+    height: 170, // Altura de la tarjeta principal / Main card height
     backgroundColor: "#FFFFFF",
     borderRadius: 16,
     padding: 20,

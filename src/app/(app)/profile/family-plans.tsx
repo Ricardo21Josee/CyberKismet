@@ -1,16 +1,17 @@
-import { PrivateProfile } from "@/api/my-profile/types";
-import { useFamilyPlans } from "@/api/options";
-import { RadioList } from "@/components/radio-list";
-import { useEdit } from "@/store/edit";
-import { router } from "expo-router";
-import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { PrivateProfile } from "@/api/my-profile/types"; // Tipo de perfil privado / Private profile type
+import { useFamilyPlans } from "@/api/options"; // Hook para obtener opciones de planes familiares / Hook to get family plan options
+import { RadioList } from "@/components/radio-list"; // Lista de opciones tipo radio / Radio options list
+import { useEdit } from "@/store/edit"; // Hook para editar el perfil / Hook to edit profile
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"; // Componentes básicos de UI / Basic UI components
 
 export default function Page() {
-  const { edits, setEdits } = useEdit();
-  const { data } = useFamilyPlans();
-  const [selected, setSelected] = useState(edits?.family_plan || null);
+  const { edits, setEdits } = useEdit(); // Obtiene y actualiza los datos editados / Gets and sets edited data
+  const { data } = useFamilyPlans(); // Opciones de planes familiares disponibles / Available family plan options
+  const [selected, setSelected] = useState(edits?.family_plan || null); // Estado para la opción seleccionada / State for selected option
 
+  // Maneja el guardado de la selección / Handles saving the selection
   const handleSave = () => {
     if (selected) {
       setEdits({
@@ -23,13 +24,13 @@ export default function Page() {
 
   return (
     <View style={styles.container}>
-      {/* Header descriptivo */}
+      {/* Header descriptivo / Descriptive header */}
       <View style={styles.header}>
         <Text style={styles.title}>Family Planning</Text>
         <Text style={styles.subtitle}>Select your family preferences</Text>
       </View>
 
-      {/* Tarjeta de opciones mejorada */}
+      {/* Tarjeta de opciones mejorada / Improved options card */}
       <View style={styles.card}>
         <RadioList
           options={data}
@@ -38,7 +39,7 @@ export default function Page() {
         />
       </View>
 
-      {/* Footer con botón interactivo */}
+      {/* Footer con botón interactivo / Footer with interactive button */}
       <View style={styles.footer}>
         <View style={styles.selectionPreview}>
           <Text style={styles.selectionText}>
@@ -59,6 +60,7 @@ export default function Page() {
   );
 }
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,20 +1,21 @@
-import { PrivateProfile } from "@/api/my-profile/types";
-import { useEdit } from "@/store/edit";
-import { router } from "expo-router";
-import { useState } from "react";
+import { PrivateProfile } from "@/api/my-profile/types"; // Tipo de perfil privado / Private profile type
+import { useEdit } from "@/store/edit"; // Hook para editar el perfil / Hook to edit profile
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
 import {
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
+} from "react-native"; // Componentes básicos de UI / Basic UI components
 
 export default function Page() {
-  const { edits, setEdits } = useEdit();
-  const [firstName, setFirstName] = useState(edits?.first_name || "");
-  const [lastName, setLastName] = useState(edits?.last_name || "");
+  const { edits, setEdits } = useEdit(); // Obtiene y actualiza los datos editados / Gets and sets edited data
+  const [firstName, setFirstName] = useState(edits?.first_name || ""); // Estado para el primer nombre / State for first name
+  const [lastName, setLastName] = useState(edits?.last_name || ""); // Estado para el apellido / State for last name
 
+  // Maneja el guardado del nombre / Handles saving the name
   const handleSave = () => {
     if (firstName) {
       setEdits({
@@ -28,6 +29,7 @@ export default function Page() {
 
   return (
     <View style={styles.container}>
+      {/* Contenedor del campo de primer nombre / First name input container */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>First Name</Text>
         <TextInput
@@ -41,6 +43,7 @@ export default function Page() {
         />
       </View>
 
+      {/* Contenedor del campo de apellido / Last name input container */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Last Name</Text>
         <TextInput
@@ -54,6 +57,7 @@ export default function Page() {
         />
       </View>
 
+      {/* Botón para guardar el nombre / Button to save the name */}
       <TouchableOpacity
         style={[styles.saveButton, !firstName && styles.disabledButton]}
         onPress={handleSave}
@@ -67,6 +71,7 @@ export default function Page() {
   );
 }
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,

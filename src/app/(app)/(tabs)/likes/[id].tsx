@@ -1,90 +1,100 @@
 import {
-  useCreateChannel,
-  useLikes,
-  useMatch,
-  useRemoveLike,
+  useCreateChannel, // Hook para crear un canal en Sendbird / Hook to create a channel in Sendbird
+  useLikes, // Hook para obtener la lista de likes / Hook to get the list of likes
+  useMatch, // Hook para gestionar el estado de match / Hook to manage match state
+  useRemoveLike, // Hook para eliminar un like / Hook to remove a like
 } from "@/api/profiles";
-import { ProfileView } from "@/components/profile-view";
-import { supabase } from "@/lib/supabase";
-import { transformPublicProfile } from "@/utils/profile";
-import { Ionicons } from "@expo/vector-icons";
-import { Redirect, Stack, router, useLocalSearchParams } from "expo-router";
+import { ProfileView } from "@/components/profile-view"; // Componente para mostrar el perfil / Profile display component
+import { supabase } from "@/lib/supabase"; // Cliente de Supabase / Supabase client
+import { transformPublicProfile } from "@/utils/profile"; // Utilidad para transformar el perfil / Utility to transform profile
+import { Ionicons } from "@expo/vector-icons"; // Iconos de Expo / Expo icons
+import { Redirect, Stack, router, useLocalSearchParams } from "expo-router"; // Navegación y utilidades de rutas / Navigation and route utilities
 import {
-  ActivityIndicator,
-  Alert,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
+  ActivityIndicator, // Indicador de carga / Loading indicator
+  Alert, // Alertas nativas / Native alerts
+  Pressable, // Botón presionable / Pressable button
+  ScrollView, // Scroll vertical / Vertical scroll
+  Text, // Texto / Text
+  View, // Contenedor de vista / View container
 } from "react-native";
 
+// Componente principal de la pantalla de detalle de un like
+// Main component for the like detail screen
 const Page = () => {
-  const { id } = useLocalSearchParams();
-  const { mutate: remove, isPending: removePending } = useRemoveLike();
-  const { isPending: matchPending } = useMatch();
-  const { mutateAsync: createChannel } = useCreateChannel();
+  const { id } = useLocalSearchParams(); // Obtiene el id del like desde la URL / Gets the like id from the URL
+  const { mutate: remove, isPending: removePending } = useRemoveLike(); // Hook para eliminar like / Hook to remove like
+  const { isPending: matchPending } = useMatch(); // Estado de match en proceso / Match pending state
+  const { mutateAsync: createChannel } = useCreateChannel(); // Hook para crear canal / Hook to create channel
 
-  const { data, refetch } = useLikes();
-  const like = data.find((like) => like.id === id);
+  const { data, refetch } = useLikes(); // Obtiene y refresca la lista de likes / Gets and refreshes likes list
+  const like = data.find((like) => like.id === id); // Busca el like actual por id / Finds the current like by id
   let profile;
 
+  // Función para eliminar el like (rechazar)
+  // Function to remove (reject) the like
   const handleRemove = () => {
     if (like) {
       remove(like.id, {
         onSuccess: () => {
-          router.back();
+          router.back(); // Vuelve a la pantalla anterior / Go back to previous screen
         },
         onError: () => {
-          Alert.alert("Error", "Something went wrong, please try again later");
+          Alert.alert("Error", "Something went wrong, please try again later"); // Alerta de error / Error alert
         },
       });
     }
   };
 
+  // Función para aceptar el match y crear el canal de chat
+  // Function to accept the match and create the chat channel
   const handleMatch = async () => {
     if (!like) return;
     const {
       data: { user },
-    } = await supabase.auth.getUser();
+    } = await supabase.auth.getUser(); // Obtiene el usuario actual / Gets the current user
     if (!user) {
-      Alert.alert("Error", "No se pudo obtener el usuario actual");
+      Alert.alert("Error", "No se pudo obtener el usuario actual"); // Alerta si no hay usuario / Alert if no user
       return;
     }
-    const user1 = user.id;
-    const user2 = like.profile.id;
-    const channel = `channel_${user1}_${user2}`;
-    const data = await createChannel({ user1, user2, channel });
+    const user1 = user.id; // ID del usuario actual / Current user ID
+    const user2 = like.profile.id; // ID del usuario del like / Liked user's ID
+    const channel = `channel_${user1}_${user2}`; // Nombre único del canal / Unique channel name
+    const data = await createChannel({ user1, user2, channel }); // Crea el canal en Supabase/Sendbird
 
     try {
-      console.log("Resultado createChannel:", data);
+      console.log("Resultado createChannel:", data); // Log del resultado / Log result
       if (!data?.channel_url) {
-        Alert.alert("Error", "No se pudo crear el canal de chat");
+        Alert.alert("Error", "No se pudo crear el canal de chat"); // Alerta si falla / Alert if fails
         return;
       }
-      await refetch(); // Refresca la lista de likes
-      router.replace(`/matches/${data.channel_url}`);
+      await refetch(); // Refresca la lista de likes / Refresh likes list
+      router.replace(`/matches/${data.channel_url}`); // Navega al chat / Navigate to chat
     } catch (e: any) {
       Alert.alert(
         "Error",
         e?.message || "No se pudo crear el chat, intenta más tarde"
       );
-      console.log("Error al crear canal:", e);
+      console.log("Error al crear canal:", e); // Log de error / Error log
     }
   };
 
+  // Si no existe el like, redirige a la lista de likes
+  // If like does not exist, redirect to likes list
   if (!like) {
     return <Redirect href={"/likes"} />;
   }
 
-  profile = transformPublicProfile(like.profile);
+  profile = transformPublicProfile(like.profile); // Transforma el perfil para mostrarlo / Transform profile for display
 
   return (
     <View className="flex-1 bg-FFF0F3">
+      {/* Configuración del header de la pantalla */}
+      {/* Screen header configuration */}
       <Stack.Screen
         options={{
           headerLeft: () => (
             <Pressable
-              onPressOut={() => router.back()}
+              onPressOut={() => router.back()} // Botón para volver atrás / Back button
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
@@ -105,6 +115,8 @@ const Page = () => {
         }}
       />
 
+      {/* Perfil del usuario que dio like */}
+      {/* Profile of the user who liked */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
@@ -114,9 +126,10 @@ const Page = () => {
         </View>
       </ScrollView>
 
-      {/* Botones de acción simplificados */}
+      {/* Botones de acción: rechazar y chatear */}
+      {/* Action buttons: reject and chat */}
       <View className="absolute bottom-5 left-0 right-0 px-5 flex-row justify-between">
-        {/* Botón de Rechazar */}
+        {/* Botón de Rechazar / Reject button */}
         <Pressable
           onPress={handleRemove}
           disabled={removePending || matchPending}
@@ -128,13 +141,13 @@ const Page = () => {
           })}
         >
           {removePending ? (
-            <ActivityIndicator color="white" />
+            <ActivityIndicator color="white" /> // Indicador de carga / Loading indicator
           ) : (
-            <Ionicons name="close" size={32} color="white" />
+            <Ionicons name="close" size={32} color="white" /> // Icono de cerrar / Close icon
           )}
         </Pressable>
 
-        {/* Botón de Chat */}
+        {/* Botón de Chat / Chat button */}
         <Pressable
           onPress={handleMatch}
           disabled={removePending || matchPending}
@@ -146,9 +159,9 @@ const Page = () => {
           })}
         >
           {matchPending ? (
-            <ActivityIndicator color="white" />
+            <ActivityIndicator color="white" /> // Indicador de carga / Loading indicator
           ) : (
-            <Ionicons name="chatbubble-outline" size={28} color="white" />
+            <Ionicons name="chatbubble-outline" size={28} color="white" /> // Icono de chat / Chat icon
           )}
         </Pressable>
       </View>
@@ -156,4 +169,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Page; // Exporta el componente principal / Export main component

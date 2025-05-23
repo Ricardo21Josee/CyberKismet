@@ -1,26 +1,27 @@
-import { PrivateProfile } from "@/api/my-profile/types";
-import { StackHeaderV4 } from "@/components/stack-header-v4";
-import { useEdit } from "@/store/edit";
-import { age } from "@/utils/age";
+import { PrivateProfile } from "@/api/my-profile/types"; // Tipo de perfil privado / Private profile type
+import { StackHeaderV4 } from "@/components/stack-header-v4"; // Header personalizado / Custom header
+import { useEdit } from "@/store/edit"; // Hook para editar el perfil / Hook to edit profile
+import { age } from "@/utils/age"; // Utilidad para calcular edad / Utility to calculate age
 import DateTimePicker, {
   DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
-import { subYears } from "date-fns";
-import { router } from "expo-router";
-import { useState } from "react";
+} from "@react-native-community/datetimepicker"; // Selector de fecha / Date picker
+import { subYears } from "date-fns"; // Utilidad para restar años / Utility to subtract years
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
 import {
   Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from "react-native"; // Componentes básicos de UI / Basic UI components
 
 export default function Page() {
-  const { edits, setEdits } = useEdit();
-  const [date, setDate] = useState(edits?.dob || subYears(new Date(), 18));
-  const [show, setShow] = useState(false);
+  const { edits, setEdits } = useEdit(); // Obtiene y actualiza los datos editados / Gets and sets edited data
+  const [date, setDate] = useState(edits?.dob || subYears(new Date(), 18)); // Estado para la fecha de nacimiento / State for birth date
+  const [show, setShow] = useState(false); // Estado para mostrar el picker / State to show picker
 
+  // Maneja el cambio de fecha / Handles date change
   const onChange = (
     _event: DateTimePickerEvent,
     selectedDate: Date | undefined
@@ -33,6 +34,7 @@ export default function Page() {
     }
   };
 
+  // Maneja el guardado de la fecha / Handles saving the date
   const handlePress = () => {
     if (date) {
       setEdits({
@@ -43,11 +45,12 @@ export default function Page() {
     router.back();
   };
 
+  // Render principal de la pantalla de edad / Main render for age screen
   return (
     <View style={styles.container}>
       <StackHeaderV4 title="Age" onPressBack={handlePress} />
 
-      {/* Selector de fecha mejorado */}
+      {/* Selector de fecha mejorado / Enhanced date selector */}
       <View style={styles.selectorContainer}>
         {(show || Platform.OS === "ios") && (
           <View style={styles.pickerContainer}>
@@ -61,11 +64,12 @@ export default function Page() {
               maximumDate={subYears(new Date(), 18)}
               minimumDate={subYears(new Date(), 100)}
               themeVariant="light"
-              textColor="#590D22" // Color del texto del picker
+              textColor="#590D22" // Color del texto del picker / Picker text color
             />
           </View>
         )}
 
+        {/* Muestra la edad calculada / Shows calculated age */}
         <TouchableOpacity
           style={styles.ageDisplay}
           onPress={() => setShow(true)}
@@ -77,7 +81,7 @@ export default function Page() {
         </TouchableOpacity>
       </View>
 
-      {/* Botón para Android */}
+      {/* Botón para Android para cambiar la fecha / Android button to change date */}
       {Platform.OS === "android" && !show && (
         <TouchableOpacity
           style={styles.androidButton}
@@ -90,6 +94,7 @@ export default function Page() {
   );
 }
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,

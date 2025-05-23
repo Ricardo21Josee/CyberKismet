@@ -1,29 +1,30 @@
-import { useUpdateAgeRange } from "@/api/my-profile";
-import { StackHeaderV4 } from "@/components/stack-header-v4";
-import { useEdit } from "@/store/edit";
-import { Slider } from "@miblanchard/react-native-slider";
-import { router } from "expo-router";
-import { useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { useUpdateAgeRange } from "@/api/my-profile"; // Hook para actualizar el rango de edad / Hook to update age range
+import { StackHeaderV4 } from "@/components/stack-header-v4"; // Header personalizado / Custom header
+import { useEdit } from "@/store/edit"; // Hook para editar preferencias / Hook to edit preferences
+import { Slider } from "@miblanchard/react-native-slider"; // Componente slider de rango / Range slider component
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { useState } from "react"; // Hook de estado de React / React state hook
+import { Alert, StyleSheet, Text, View } from "react-native"; // Componentes básicos de UI / Basic UI components
 
 const Page = () => {
-  const { edits } = useEdit();
+  const { edits } = useEdit(); // Obtiene los valores editados / Gets edited values
   const [ageRange, setAgeRange] = useState([
     edits?.min_age || 18,
     edits?.max_age || 100,
-  ]);
+  ]); // Estado para el rango de edad / State for age range
 
-  const { mutate, reset } = useUpdateAgeRange();
+  const { mutate, reset } = useUpdateAgeRange(); // Mutación para actualizar rango / Mutation to update range
 
+  // Maneja la acción de guardar el rango de edad / Handles saving the age range
   const handlePress = () => {
     mutate(
       { min_age: ageRange[0], max_age: ageRange[1] },
       {
         onSuccess: () => {
-          router.back();
+          router.back(); // Vuelve atrás si es exitoso / Go back if successful
         },
         onError: () => {
-          Alert.alert("Error", "Something went wrong, please try again later.");
+          Alert.alert("Error", "Something went wrong, please try again later."); // Muestra error / Show error
           reset();
           router.back();
         },
@@ -31,6 +32,7 @@ const Page = () => {
     );
   };
 
+  // Render principal de la pantalla de rango de edad / Main render for age range screen
   return (
     <View style={styles.container}>
       <StackHeaderV4
@@ -42,6 +44,7 @@ const Page = () => {
       <View style={styles.sliderContainer}>
         <Text style={styles.sliderTitle}>Select age range</Text>
 
+        {/* Slider para seleccionar el rango de edad / Slider to select age range */}
         <Slider
           minimumValue={18}
           maximumValue={100}
@@ -60,6 +63,7 @@ const Page = () => {
           )}
         />
 
+        {/* Muestra los valores mínimo y máximo seleccionados / Shows selected min and max values */}
         <View style={styles.rangeContainer}>
           <View style={styles.rangeValue}>
             <Text style={styles.rangeLabel}>Min age</Text>
@@ -72,6 +76,7 @@ const Page = () => {
         </View>
       </View>
 
+      {/* Descripción de la función del slider / Slider description */}
       <Text style={styles.description}>
         Adjust the sliders to set your preferred age range for matches
       </Text>
@@ -79,6 +84,7 @@ const Page = () => {
   );
 };
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,

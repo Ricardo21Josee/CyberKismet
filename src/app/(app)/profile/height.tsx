@@ -1,23 +1,24 @@
-import { PrivateProfile } from "@/api/my-profile/types";
-import { useEdit } from "@/store/edit";
-import { router } from "expo-router";
-import { range } from "lodash";
-import { useState } from "react";
+import { PrivateProfile } from "@/api/my-profile/types"; // Tipo de perfil privado / Private profile type
+import { useEdit } from "@/store/edit"; // Hook para editar el perfil / Hook to edit profile
+import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
+import { range } from "lodash"; // Utilidad para generar rangos / Utility to generate ranges
+import { useState } from "react"; // Hook de estado de React / React state hook
 import {
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from "react-native"; // Componentes básicos de UI / Basic UI components
 
 export default function Page() {
-  const { edits, setEdits } = useEdit();
+  const { edits, setEdits } = useEdit(); // Obtiene y actualiza los datos editados / Gets and sets edited data
   const [selectedHeight, setSelectedHeight] = useState(
     edits?.height_cm || null
-  );
-  const heights = range(140, 201); // Rango de 140cm a 200cm
+  ); // Estado para la altura seleccionada / State for selected height
+  const heights = range(140, 201); // Rango de 140cm a 200cm / Height range from 140cm to 200cm
 
+  // Guarda la altura seleccionada y regresa / Save selected height and go back
   const saveAndGoBack = () => {
     if (selectedHeight) {
       setEdits({
@@ -30,12 +31,12 @@ export default function Page() {
 
   return (
     <View style={styles.container}>
-      {/* Título decorativo */}
+      {/* Título decorativo / Decorative title */}
       <Text style={styles.title}>Select Your Height</Text>
 
-      {/* Selector de altura vertical */}
+      {/* Selector de altura vertical / Vertical height selector */}
       <View style={styles.heightContainer}>
-        {/* Línea guía central */}
+        {/* Línea guía central / Central guide line */}
         <View style={styles.guideLine} />
 
         <ScrollView
@@ -44,6 +45,7 @@ export default function Page() {
           snapToInterval={80}
           decelerationRate="fast"
         >
+          {/* Opciones de altura / Height options */}
           {heights.map((height) => (
             <TouchableOpacity
               key={height}
@@ -67,7 +69,7 @@ export default function Page() {
         </ScrollView>
       </View>
 
-      {/* Indicador visual mejorado */}
+      {/* Indicador visual mejorado / Improved visual indicator */}
       <View style={styles.bottomContainer}>
         <View style={styles.indicatorContainer}>
           <View style={[styles.indicatorLine, styles.leftLine]} />
@@ -77,6 +79,7 @@ export default function Page() {
           <View style={[styles.indicatorLine, styles.rightLine]} />
         </View>
 
+        {/* Botón para guardar la altura / Button to save height */}
         <TouchableOpacity
           style={[styles.saveButton, !selectedHeight && styles.disabledButton]}
           onPress={saveAndGoBack}
@@ -90,6 +93,7 @@ export default function Page() {
   );
 }
 
+// Estilos para los componentes de la pantalla / Styles for screen components
 const styles = StyleSheet.create({
   container: {
     flex: 1,
