@@ -8,7 +8,7 @@ import {
   useSendbirdChat,
 } from "@sendbird/uikit-react-native"; // Utilidades de Sendbird / Sendbird utilities
 import { router, Stack, useLocalSearchParams } from "expo-router"; // Navegación y utilidades de rutas / Navigation and route utilities
-import { useContext } from "react"; // Hook de contexto de React / React context hook
+import { useContext, useEffect } from "react"; // Hook de contexto de React / React context hook
 import { Alert, Pressable, Text, View } from "react-native"; // Componentes básicos de UI / Basic UI components
 
 // Header personalizado para el canal de chat / Custom header for chat channel
@@ -101,6 +101,18 @@ export default function Page() {
 
   const { sdk } = useSendbirdChat(); // Instancia de Sendbird SDK / Sendbird SDK instance
   const { channel } = useGroupChannel(sdk, id); // Obtiene el canal de grupo / Gets group channel
+
+  // Forzar join si el usuario está invitado
+  useEffect(() => {
+    if (
+      channel &&
+      channel.myMemberState === "invited" &&
+      channel.acceptInvitation
+    ) {
+      channel.acceptInvitation();
+    }
+  }, [channel]);
+
   if (!channel) return <Text>Canal no encontrado o no tienes acceso</Text>; // Si no hay canal, muestra mensaje / If no channel, show message
 
   return (

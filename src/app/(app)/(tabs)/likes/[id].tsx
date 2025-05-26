@@ -5,9 +5,11 @@ import {
   useRemoveLike, // Hook para eliminar un like / Hook to remove a like
 } from "@/api/profiles";
 import { ProfileView } from "@/components/profile-view"; // Componente para mostrar el perfil / Profile display component
+
 import { supabase } from "@/lib/supabase"; // Cliente de Supabase / Supabase client
 import { transformPublicProfile } from "@/utils/profile"; // Utilidad para transformar el perfil / Utility to transform profile
 import { Ionicons } from "@expo/vector-icons"; // Iconos de Expo / Expo icons
+import { useConnection } from "@sendbird/uikit-react-native";
 import { Redirect, Stack, router, useLocalSearchParams } from "expo-router"; // Navegación y utilidades de rutas / Navigation and route utilities
 import {
   ActivityIndicator, // Indicador de carga / Loading indicator
@@ -25,6 +27,7 @@ const Page = () => {
   const { mutate: remove, isPending: removePending } = useRemoveLike(); // Hook para eliminar like / Hook to remove like
   const { isPending: matchPending } = useMatch(); // Estado de match en proceso / Match pending state
   const { mutateAsync: createChannel } = useCreateChannel(); // Hook para crear canal / Hook to create channel
+  const { connect } = useConnection();
 
   const { data, refetch } = useLikes(); // Obtiene y refresca la lista de likes / Gets and refreshes likes list
   const like = data.find((like) => like.id === id); // Busca el like actual por id / Finds the current like by id
@@ -67,8 +70,12 @@ const Page = () => {
         Alert.alert("Error", "No se pudo crear el canal de chat"); // Alerta si falla / Alert if fails
         return;
       }
+
+      // AUTENTICA AL USUARIO EN SENDBIRD
+      await connect(user.id);
+
       await refetch(); // Refresca la lista de likes / Refresh likes list
-      router.replace(`/matches/${data.channel_url}`); // Navega al chat / Navigate to chat
+      router.push(`/matches/${data.channel_url}`);
     } catch (e: any) {
       Alert.alert(
         "Error",
