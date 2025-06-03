@@ -4,7 +4,7 @@ import { CheckboxList } from "@/components/checkbox-list"; // Lista de opciones 
 import { useEdit } from "@/store/edit"; // Hook para editar el perfil / Hook to edit profile
 import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
 import { useState } from "react"; // Hook de estado de React / React state hook
-import { View } from "react-native"; // Componente de vista básico / Basic view component
+import { Button, View } from "react-native"; // Componente de vista básico / Basic view component
 
 export default function Page() {
   const { edits, setEdits } = useEdit(); // Obtiene y actualiza los datos editados / Gets and sets edited data
@@ -53,6 +53,12 @@ export default function Page() {
           initialSelection={selected}
         />
       </View>
+      {/* Botón para guardar la selección / Button to save selection */}
+      <Button
+        title="Guardar" // Texto del botón / Button text
+        onPress={handlePress} // Maneja el evento de presionar el botón / Handles button press event
+        disabled={selected.length === 0} // Desactiva el botón si no hay géneros seleccionados / Disables button if no genders are selected
+      />
     </View>
   );
 }

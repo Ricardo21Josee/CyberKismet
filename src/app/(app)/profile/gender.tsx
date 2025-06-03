@@ -4,7 +4,7 @@ import { RadioList } from "@/components/radio-list"; // Lista de opciones tipo r
 import { useEdit } from "@/store/edit"; // Hook para editar el perfil / Hook to edit profile
 import { router } from "expo-router"; // Utilidad de navegación / Navigation utility
 import { useState } from "react"; // Hook de estado de React / React state hook
-import { View } from "react-native"; // Componente de vista básico / Basic view component
+import { Button, View } from "react-native"; // Componente de vista básico / Basic view component
 
 export default function Page() {
   const { edits, setEdits } = useEdit(); // Obtiene y actualiza los datos editados / Gets and sets edited data
@@ -55,6 +55,12 @@ export default function Page() {
           initialSelection={selected}
         />
       </View>
+      {/* Botón para guardar la selección / Button to save selection */}
+      <Button
+        title="Guardar" // Save
+        onPress={handlePress}
+        disabled={!selected}
+      />
     </View>
   );
 }

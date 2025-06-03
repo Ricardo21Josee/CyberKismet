@@ -36,10 +36,8 @@ as $$
 declare
   v_profile_id uuid;
   current_profile profiles%rowtype;
-  like_status int := 2;
   match_status int := 4;
-  unmatch_status int := 5;
-  review_status int := 6;
+  like_status int := 2;
 begin
 
 select profiles.id into v_profile_id 
@@ -60,6 +58,22 @@ with filtered_profiles as (
     and extract(year from age(p.dob)) between current_profile.min_age and current_profile.max_age
     and extract(year from age(current_profile.dob)) between p.min_age and p.max_age
     and st_dwithin(p.location, current_profile.location, current_profile.max_distance_km * 1000)
+    -- EXCLUIR MATCHES EN CUALQUIER DIRECCIÓN
+    and not exists (
+      select 1 from interactions m
+      where (
+        (m.actor_id = v_profile_id and m.target_id = p.id)
+        or (m.actor_id = p.id and m.target_id = v_profile_id)
+      )
+      and m.status_id = match_status
+    )
+    -- EXCLUIR PERFILES A LOS QUE YA DISTE LIKE
+    and not exists (
+      select 1 from interactions m
+      where m.actor_id = v_profile_id
+        and m.target_id = p.id
+        and m.status_id = like_status
+    )
 )
 select
   p.id,
@@ -122,8 +136,6 @@ left join profile_gender_preferences pgp_cp on pgp_cp.profile_id = v_profile_id
 left join profile_gender_preferences pgp_p on pgp_p.profile_id = p.id
 left join profile_ethnicity_preferences pep_cp on pep_cp.profile_id = v_profile_id
 left join profile_ethnicity_preferences pep_p on pep_p.profile_id = p.id
-left join interactions i_cp on i_cp.target_id = p.id and i_cp.actor_id = v_profile_id
-left join interactions i_p on i_p.target_id = v_profile_id and i_p.actor_id = p.id
 where (p.gender_id = pgp_cp.gender_id or pgp_cp.gender_id is null) 
   and (current_profile.gender_id = pgp_p.gender_id or pgp_p.gender_id is null)
   and (pep_cp.ethnicity_id in (
@@ -136,8 +148,6 @@ where (p.gender_id = pgp_cp.gender_id or pgp_cp.gender_id is null)
     from profile_ethnicities
     where profile_ethnicities.profile_id = v_profile_id
   ) or pep_p.ethnicity_id is null)
-  and (i_cp.status_id is null or i_cp.status_id in (review_status, unmatch_status))
-  and (i_p.status_id is null or i_p.status_id not in (like_status, match_status))
 limit get_profiles.page_size;
 end;
 $$;

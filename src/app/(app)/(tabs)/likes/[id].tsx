@@ -52,36 +52,53 @@ const Page = () => {
   // Function to accept the match and create the chat channel
   const handleMatch = async () => {
     if (!like) return;
-    const {
-      data: { user },
-    } = await supabase.auth.getUser(); // Obtiene el usuario actual / Gets the current user
+    const { data } = await supabase.auth.getUser();
+    const user = data?.user;
     if (!user) {
-      Alert.alert("Error", "No se pudo obtener el usuario actual"); // Alerta si no hay usuario / Alert if no user
+      Alert.alert("Error", "No se pudo obtener el usuario autenticado");
       return;
     }
-    const user1 = user.id; // ID del usuario actual / Current user ID
-    const user2 = like.profile.id; // ID del usuario del like / Liked user's ID
-    const channel = `channel_${user1}_${user2}`; // Nombre único del canal / Unique channel name
-    const data = await createChannel({ user1, user2, channel }); // Crea el canal en Supabase/Sendbird
+
+    // Obtener el perfil del usuario actual usando el user_id de Auth
+    const { data: myProfile, error } = await supabase
+      .from("profiles")
+      .select("id")
+      .eq("user_id", user.id)
+      .single();
+
+    if (error || !myProfile) {
+      Alert.alert("Error", "No se pudo obtener tu perfil");
+      return;
+    }
+
+    const user1 = myProfile.id;
+    const user2 = like.profile.id;
+    const channel = `channel_${user1}_${user2}`;
+    const channelData = await createChannel({ user1, user2, channel });
 
     try {
-      console.log("Resultado createChannel:", data); // Log del resultado / Log result
-      if (!data?.channel_url) {
-        Alert.alert("Error", "No se pudo crear el canal de chat"); // Alerta si falla / Alert if fails
+      if (!channelData?.channel_url) {
+        Alert.alert("Error", "No se pudo crear el canal de chat");
         return;
       }
 
       // AUTENTICA AL USUARIO EN SENDBIRD
-      await connect(user.id);
+      await connect(user1);
 
-      await refetch(); // Refresca la lista de likes / Refresh likes list
-      router.push(`/matches/${data.channel_url}`);
+      // Elimina el like después de crear el canal
+      await remove(like.id);
+
+      // Refresca la lista de likes y sugerencias
+      await refetch();
+
+      // Redirige al chat
+      router.push(`/matches/${channelData.channel_url}`);
     } catch (e: any) {
       Alert.alert(
         "Error",
         e?.message || "No se pudo crear el chat, intenta más tarde"
       );
-      console.log("Error al crear canal:", e); // Log de error / Error log
+      console.log("Error al crear canal:", e);
     }
   };
 

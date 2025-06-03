@@ -6,11 +6,15 @@ language plpgsql
 security definer
 as $$
 declare
-  sendbird_app_id text := 'CD1C9972-DF4E-4F41-919D-CC87C4F0311F'; -- ID de la app Sendbird / Sendbird app ID
-  sendbird_api_token text := 'a89015a22202cee4e533e2a9e5482a7705b64ed0'; -- Token de API Sendbird / Sendbird API token
-  sendbird_api_url text; -- URL de la API Sendbird / Sendbird API URL
-  sendbird_status int;   -- Código de estado de la respuesta / Response status code
-  sendbird_content jsonb; -- Contenido de la respuesta / Response content
+  sendbird_app_id text := 'A51D3F72-8065-4E00-A5AB-F17C569DF69F'; -- Nuevo ID de la app Sendbird
+  sendbird_api_token text := '9344a577cb8ffaf8195f12d619a15d09f4e8c27d'; -- Nuevo API token
+  sendbird_api_url text;
+  sendbird_status int;
+  sendbird_content jsonb;
+  members_url text;
+  members_status int;
+  members_content jsonb;
+  missing_users text[];
 begin
   -- Construye la URL para eliminar el canal / Build URL to delete the channel
   sendbird_api_url := 'https://api-' || sendbird_app_id || '.sendbird.com/v3/group_channels/' || channel;
